@@ -96,7 +96,5 @@ class ShapeDemo{
 		sh=s1;
 		sh.draw();
 		sh.erase();
-
-
 	}//end main
 }//end class
