@@ -1,4 +1,3 @@
-
 // Demonstration of  abstract class
 abstract class Shape
 {
