@@ -67,58 +67,23 @@ main() {
 
 #include<stdio.h>
 
-#include<conio.h>
+#include<conio.h> int count=0,n;
 
-#include<stdlib.h>
-
-#define SIZE 5
-int q[SIZE], i, r = -1, f = 0, option, count = 0, j;
-int
-main() {
-  for (;;) {
-    printf("\n 1.Insert 2.Delete\n 3.Display 4.Exit");
-    printf("\nEnter your option:");
-    scanf("%d", & option);
-    switch (option) {
-    case 1: //Inserting items to Queue
-      if (count == SIZE)
-        printf("\n Q is Full\n");
-      else {
-
-      }
-      break;
-      r = (r + 1) % SIZE;
-      printf("\nEnter the item:");
-      scanf("%d", & q[r]);
-      count++;
-
-    case 2: //Deleting items from Queue
-      if (count == 0)
-        printf("\nQ is empty\n");
-      else {
-
-      }
-      break;
-      printf("\nDeleted item is: %d", q[f]);
-      count--;
-      f = (f + 1) % SIZE;
-
-    case 3: //Displaying items from Queue
-      if (count == 0)
-        printf("\nQ is Empty\n");
-      else {
-        i = f;
-        for (j = 0; j < count; j++) {
-
-        }
-      }
-      break;
-
-      printf(" %d", q[i]);
-      i = (i + 1) % SIZE;
-
-    default:
-      exit(0);
-    }
+int tower(int n, char s, char t, char d) {
+  if (n == 1) {
+    printf("\n Move disc 1 from %c to %c", s, d);
+    count++;
+    return 1;
   }
+  tower(n - 1, s, d, t);
+  printf("\n Move disc %d from %c to %c", n, s, d);
+  count++;
+  tower(n - 1, t, s, d);
+}
+int main() {
+  printf("\n Enter the no. of discs:");
+  scanf("%d", & n);
+  tower(n, 'A', 'B', 'C');
+  printf("\n The no. of disc moves is:%d", count);
+  getch();
 }
