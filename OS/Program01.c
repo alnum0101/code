@@ -10,51 +10,51 @@
 
 int main() {
 
- pid_t child_pid;
+  pid_t child_pid;
 
- // Fork a child process
+  // Fork a child process
 
- child_pid = fork();
+  child_pid = fork();
 
- if (child_pid == -1) {
+  if (child_pid == -1) {
 
- // Fork failed
+    // Fork failed
 
- perror("Fork failed");
+    perror("Fork failed");
 
- exit(EXIT_FAILURE);
+    exit(EXIT_FAILURE);
 
- }
+  }
 
- if (child_pid == 0) {
+  if (child_pid == 0) {
 
- // This is the child process
+    // This is the child process
 
- printf("Child process: PID = %d\n", getpid());
+    printf("Child process: PID = %d\n", getpid());
 
- // Execute a new program in the child process
+    // Execute a new program in the child process
 
- execlp("/bin/ls", "ls", "-l", (char *)NULL);
+    execlp("/bin/ls", "ls", "-l", (char * ) NULL);
 
- // If exec fails
+    // If exec fails
 
- perror("Exec failed");
+    perror("Exec failed");
 
- exit(EXIT_FAILURE);
-} else {
+    exit(EXIT_FAILURE);
+  } else {
 
- // This is the parent process
+    // This is the parent process
 
- printf("Parent process: PID = %d\n", getpid());
+    printf("Parent process: PID = %d\n", getpid());
 
- // Wait for the child process to finish
+    // Wait for the child process to finish
 
- wait(NULL);
+    wait(NULL);
 
- printf("Child process terminated\n");
+    printf("Child process terminated\n");
 
- }
+  }
 
- return 0;
+  return 0;
 
 }
