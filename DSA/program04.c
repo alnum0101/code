@@ -40,12 +40,14 @@ void main() /* Main Program */ {
     else if (isalnum(ch))
       pofx[k++] = ch;
     else if (ch == ')') {
-      while (s[top] != '(') pofx[k++] = pop();
-      elem = pop(); /* Remove ( */
+      while (s[top] != '(') 
+       pofx[k++] = pop();
+       elem = pop(); /* Remove ( */
     } else /* Operator */ {
-      while (pr(s[top]) >= pr(ch)) pofx[k++] = pop();
-      push(ch);
-    }
+      while (pr(s[top]) >= pr(ch)) 
+       pofx[k++] = pop();
+       push(ch);
+     }
   }
   while (s[top] != '#') /* Pop from stack till empty */
     pofx[k++] = pop();
