@@ -1,111 +1,75 @@
 #include <stdio.h>
-
 #include <stdlib.h>
-
 #include <sys/types.h>
-
 #include <sys/stat.h>
-
 #include <fcntl.h>
-
 #include <unistd.h>
-
 #include <string.h>
 
 #define FIFO_NAME "myfifo"
 
 void writerProcess() {
+    int fd;
 
- int fd;
+    // Create the FIFO (named pipe)
+    mkfifo(FIFO_NAME, 0666);
 
- // Create the FIFO (named pipe)
+    // Open the FIFO for writing
+    fd = open(FIFO_NAME, O_WRONLY);
 
- mkfifo(FIFO_NAME, 0666);
+    if (fd == -1) {
+        perror("Error opening FIFO for writing");
+        exit(EXIT_FAILURE);
+    }
 
- // Open the FIFO for writing
+    // Write data to the FIFO
+    char message[] = "Hello, reader!";
+    write(fd, message, strlen(message) + 1);
 
- fd = open(FIFO_NAME, O_WRONLY);
-
- if (fd == -1) {
-
- perror("Error opening FIFO for writing");
-
- exit(EXIT_FAILURE);
-
- }
-
- // Write data to the FIFO
-
- char message[] = "Hello, reader!";
-
- write(fd, message, strlen(message) + 1);
-
- // Close the FIFO
-close(fd);
-
+    // Close the FIFO
+    close(fd);
 }
 
 void readerProcess() {
+    int fd;
+    char buffer[100];
 
- int fd;
+    // Open the FIFO for reading
+    fd = open(FIFO_NAME, O_RDONLY);
 
- char buffer[100];
+    if (fd == -1) {
+        perror("Error opening FIFO for reading");
+        exit(EXIT_FAILURE);
+    }
 
- // Open the FIFO for reading
+    // Read data from the FIFO
+    read(fd, buffer, sizeof(buffer));
 
- fd = open(FIFO_NAME, O_RDONLY);
+    // Display the read data
+    printf("Message from writer: %s\n", buffer);
 
- if (fd == -1) {
-
- perror("Error opening FIFO for reading");
-
- exit(EXIT_FAILURE);
-
- }
-
- // Read data from the FIFO
-
- read(fd, buffer, sizeof(buffer));
-
- // Display the read data
-
- printf("Message from writer: %s\n", buffer);
-
- // Close the FIFO
-
- close(fd);
-
+    // Close the FIFO
+    close(fd);
 }
 
 int main() {
+    pid_t child_pid;
 
- pid_t child_pid;
+    // Fork a child process
+    child_pid = fork();
 
- // Fork a child process
+    if (child_pid == -1) {
+        perror("Fork failed");
+        exit(EXIT_FAILURE);
+    }
 
- child_pid = fork();
+    if (child_pid == 0) {
+        // This is the writer process
+        writerProcess();
+    } else {
+        // This is the reader process
+        readerProcess();
+    }
 
- if (child_pid == -1) {
-perror("Fork failed");
-
- exit(EXIT_FAILURE);
-
- }
-
- if (child_pid == 0) {
-
- // This is the writer process
-
- writerProcess();
-
- } else {
-
- // This is the reader process
-
- readerProcess();
-
- }
-
- return 0;
-
+    return 0;
 }
