@@ -109,11 +109,13 @@ int main() {
     int processes[] = {1, 2, 3};
     int n = sizeof(processes) / sizeof(processes[0]);
     int burst_time[] = {6, 8, 10};
-    int priority[] = {3, 1, 2};
+    int priority_values[] = {3, 1, 2};  // Rename the variable
     int quantum = 2;
+    
     fcfs(processes, n, burst_time);
     sjf(processes, n, burst_time);
     roundRobin(processes, n, burst_time, quantum);
-    priority(processes, n, burst_time, priority);
+    priority(processes, n, burst_time, priority_values);  // Use the renamed variable
+    
     return 0;
 }
