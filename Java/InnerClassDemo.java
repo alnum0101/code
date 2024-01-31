@@ -6,7 +6,7 @@ class Outer {
     }
   } //end Inner
   void display() {
-    System.out.println("Outer_display:x=" + x);
+    System.out.println("Outer_display: x=" + x);
     Inner in = new Inner();
     in.display();
   }
