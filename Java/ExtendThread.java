@@ -1,3 +1,4 @@
+//Program 12
 // Create a second thread by extending Thread
 class NewThread extends Thread {
   NewThread() {
